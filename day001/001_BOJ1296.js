@@ -13,9 +13,8 @@ const solution = (Teamname) => {
     percent[i] =
       ((L + O) * (L + V) * (L + E) * (O + V) * (O + E) * (V + E)) % 100;
   }
-  const ans = Teamname[percent.indexOf(Math.max(...percent))];
-  console.log(ans);
-  return ans;
+
+  return Teamname[percent.indexOf(Math.max(...percent))];
 };
 
 // node 실행
@@ -25,4 +24,4 @@ const inputFile = isStudy ? "../input.txt" : "/dev/stdin";
 const fs = require("fs");
 const input = fs.readFileSync(inputFile).toString().trim().split("\n");
 
-solution(input.slice(2).sort());
+console.log(solution(input.slice(2).sort()));
