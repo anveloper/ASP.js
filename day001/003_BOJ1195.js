@@ -1,4 +1,4 @@
-const solution = (input) => {
+const solution = () => {
   const [l, s] = input.sort((a, b) => b.length - a.length);
 
   const isPossible = (a, b) => !(a === "2" && b === "2");
@@ -18,11 +18,9 @@ const solution = (input) => {
   }
   return mx;
 };
-
 const input = require("fs")
-  .readFileSync("./dev/stdin")
+  .readFileSync("./data.in")
   .toString()
   .trim()
   .split("\n");
-
 console.log(solution(input));
