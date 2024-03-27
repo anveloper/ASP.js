@@ -1,4 +1,4 @@
-const solution = (input) => {
+const _solution = (input) => {
   const inputs = input[0].split(" ").map((v) => +v);
   const N = inputs[0];
   const RGB = [inputs[1], inputs[2], inputs[3]];
@@ -65,7 +65,59 @@ const solution = (input) => {
 
   return ans;
 };
-const input = require("fs").readFileSync("/dev/stdin").toString().split("\n");
-console.log(solution(input));
+const solution = () => {
+  const inputs = input[0].split(" ").map((v) => +v);
+  const N = inputs[0];
+  const [R, G, B] = [inputs[1], inputs[2], inputs[3]];
+  const dp = [];
+  const factorial = (x) => (x == 1 ? 1 : x * factorial(x - 1));
+  const comb = (n, r) => factorial(n) / (factorial(r) * factorial(n - r));
 
-// dp로
+  for (let i = 0; i < N + 1; i++) {
+    dp[i] = [];
+    for (let r = 0; r < R + 1; r++) {
+      dp[i][r] = [];
+      for (let g = 0; g < G + 1; g++) {
+        dp[i][r][g] = [];
+        for (let b = 0; b < B + 1; b++) {
+          if (i == 0) {
+            dp[i][r][g][b] = 1;
+            continue;
+          }
+          dp[i][r][g][b] = 0;
+          if (r - i >= 0) dp[i][r][g][b] += dp[i - 1][r - i][g][b] * 1;
+          if (g - i >= 0) dp[i][r][g][b] += dp[i - 1][r][g - i][b] * 1;
+          if (b - i >= 0) dp[i][r][g][b] += dp[i - 1][r][g][b - i] * 1;
+
+          if (i % 2 == 0) {
+            let divNum = i / 2;
+            if (g - divNum >= 0 && b - divNum >= 0)
+              dp[i][r][g][b] +=
+                dp[i - 1][r][g - divNum][b - divNum] * comb(i, divNum);
+            if (r - divNum >= 0 && b - divNum >= 0)
+              dp[i][r][g][b] +=
+                dp[i - 1][r - divNum][g][b - divNum] * comb(i, divNum);
+            if (r - divNum >= 0 && g - divNum >= 0)
+              dp[i][r][g][b] +=
+                dp[i - 1][r - divNum][g - divNum][b] * comb(i, divNum);
+          }
+
+          if (i % 3 == 0) {
+            let divNum = i / 3;
+            if (r - divNum >= 0 && g - divNum >= 0 && b - divNum >= 0)
+              dp[i][r][g][b] +=
+                dp[i - 1][r - divNum][g - divNum][b - divNum] *
+                comb(i, divNum) *
+                comb(i - divNum, divNum);
+          }
+        }
+      }
+    }
+  }
+
+  return dp[N][R][G][B]; // best sol
+};
+
+const input = require("fs").readFileSync("/dev/stdin").toString().split("\n");
+// const input = require("fs").readFileSync("../input.txt").toString().split("\n");
+console.log(solution(input));
