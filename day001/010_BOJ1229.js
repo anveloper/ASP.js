@@ -3,7 +3,7 @@ const solution = (input) => {
   const N = +input;
   const nums = [];
   const dp = Array(N + 1).fill(6);
-  for (let i = 1; i * (2 * i - 1) <= 1000000; i++) nums[i] = i * (2 * i - 1);
+  for (let i = 1; i * (2 * i - 1) <= 1_000_000; i++) nums[i] = i * (2 * i - 1);
   dp[0] = 0;
   dp[1] = 1;
   for (let i = 2; i <= N; i++) {
