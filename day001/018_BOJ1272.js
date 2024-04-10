@@ -40,4 +40,4 @@ const input = fs
   .toString()
   .trim()
   .split("\n");
-console.log(solution(input));
+console.log(solution(input)); // x dfs 불가
