@@ -11,32 +11,32 @@ const solution = (input) => {
 
   const dp = Array.from({ length: N + 1 }, () => Array(2).fill(-1));
 
-  const dfs = (cur, lastSp) => {
-    if (dp[cur][lastSp] !== -1) {
-      return dp[cur][lastSp];
+  const dfs = (cur, idx) => {
+    if (dp[cur][idx] !== -1) {
+      return dp[cur][idx];
     }
 
     let resSpecial = weights[cur - 1];
-    let resNormal = weights[cur - 1] - weights[lastSp - 1];
+    let resNormal = weights[cur - 1] - weights[idx - 1];
 
     for (const next of adj[cur]) {
-      if (next === lastSp) continue;
+      if (next === idx) continue;
       resSpecial += dfs(next, cur);
-      resNormal += dfs(next, lastSp);
+      resNormal += dfs(next, idx);
     }
 
     dp[cur][0] = cur === R ? resSpecial : Math.min(resSpecial, resNormal);
     dp[cur][1] = resSpecial;
 
-    return dp[cur][lastSp];
+    return dp[cur][idx];
   };
 
-  return dfs(R, 1);
+  return dfs(R, R);
 };
 
 const fs = require("fs");
 const input = fs
-  .readFileSync(true ? "../input.txt" : "/dev/stdin")
+  .readFileSync(false ? "../input.txt" : "/dev/stdin")
   .toString()
   .trim()
   .split("\n");
