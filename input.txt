@@ -1,1 +1,6 @@
-25 7 5
+5
+New
+Open
+Save
+Save As
+Save All
